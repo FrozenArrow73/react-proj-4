@@ -6,6 +6,12 @@ const {PORT} = process.env
 const {register, login} = require("./controllers/auth")
 const {getAllPosts, getCurrentUserPosts, addPost, editPost, deletePost} = require("./controllers/posts")
 const {isAuthenticated} = require("./middleware/isAuthenticated")
+const {sequelize} = require("./util/database")
+const {post} = require("./models/post")
+const {user} = require("./models/user")
+
+user.hasMany(post)
+post.belongsTo(user)
 
 const app = express()
 app.use(express.json())
@@ -21,6 +27,14 @@ app.put("/posts/:id", isAuthenticated, editPost)
 app.delete("/posts/id", isAuthenticated, deletePost)
 
 
-app.listen(PORT, () => {
-    console.log("running on port " + PORT)
+
+sequelize.sync().then(() => {
+
+    app.listen(PORT, () => {
+        console.log("running on port " + PORT)
+    })
+
+}).catch((err) => {
+    console.log(err)
 })
+
