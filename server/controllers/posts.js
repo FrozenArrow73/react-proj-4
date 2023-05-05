@@ -70,7 +70,17 @@ module.exports = {
             }
         },
 
-        deletePost: (req, res) => {
-            console.log("deletePost")
+        deletePost: async (req, res) => {
+            try {
+                const {id} = req.params
+                await post.destroy({
+                    where: {id: +id}
+                })
+                res.sendStatus(200)
+            } catch (err) {
+                console.log('ERROR IN editPost')
+                console.log(err)
+                res.sendStatus(400)
+            }
         }
 }

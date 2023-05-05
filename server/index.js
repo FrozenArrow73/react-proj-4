@@ -24,7 +24,7 @@ app.get("/userposts/:userId", getCurrentUserPosts)
 
 app.post("/posts", isAuthenticated, addPost)
 app.put("/posts/:id", isAuthenticated, editPost)
-app.delete("/posts/id", isAuthenticated, deletePost)
+app.delete("/posts/:id", isAuthenticated, deletePost)
 
 
 
